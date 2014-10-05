@@ -1,0 +1,10 @@
+challenges 
+- level of resolution
+- information overload
+- data huge 
+- seamlessly calculation on the fly
+
+important to integrate automated computation and visualization 
+so that everyone can analyze data
+ 
+it's difficult to capture number/diveristy of genomic variations

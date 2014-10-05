@@ -1,0 +1,309 @@
+
+**SCOPE**
+var my_number = 7; //this has global scope
+
+var timesTwo = function(number) {
+    var my_number = number * 2; //using "var" declares it to be local 
+    console.log("Inside the function my_number is: ");
+    console.log(my_number);
+}; 
+
+timesTwo(7);
+
+console.log("Outside the function my_number is: ")
+console.log(my_number);
+
+
+**POP UP BOXES**
+var userChoice = prompt("Do you coose rock, paper or scissors?")
+
+
+**RANDOM VARAIBLE**
+var computerChoice = Math.random(); //between 0 and 1
+
+
+8*for loop**
+for (var i = 5; i <= 50; i+=5) {
+	console.log(i);
+}   //+=
+
+
+**ARRAY**
+var cities = ["Melbourne", "Amman", "Helsinki", "NYC"];
+
+cities.push('Montreal')
+
+//also can be heterogenous
+
+
+**WHILE LOOP**
+var loopCondition = false;
+do {
+	console.log("I'm gonna stop looping 'cause my condition is " + loopCondition + "!");	
+} while (loopCondition);
+//run at least ONCE
+
+
+*SYNTAX*
+totalDamage = totalDamage + damageThisRound; 
+totalDamage += damageThisRound;
+
+*isNaN* 
+is not a number 
+
+*SWITCH*
+var answer = prompt("Add your question here!");
+
+switch(answer) {
+  case '':
+    console.log();
+    break;
+  
+  case 'hi':
+    console.log('hello')
+    break;
+  
+  default: 
+    console.log ('meh')
+}
+//need break to not execute default
+
+
+
+
+**OBJECT**
+
+var phonebookEntry = {};
+
+phonebookEntry.name = 'Oxnard Montalvo';
+phonebookEntry.number = '(555) 555-5555';
+phonebookEntry.phone = function() {
+  console.log('Calling ' + this.name + ' at ' + this.number + '...');
+};
+
+phonebookEntry.phone();
+
+//////
+var myObject = {
+    key: value,
+    key: value,
+    key: value
+};
+
+///////////
+var myObj = new Object();
+
+
+***MORE ON OBJECT***
+var friends = {};
+friends.bill = {
+  firstName: "Bill",
+  lastName: "Gates",
+  number: "(206) 555-5555",
+  address: ['One Microsoft Way','Redmond','WA','98052']
+};
+friends.steve = {
+  firstName: "Steve",
+  lastName: "Jobs",
+  number: "(408) 555-5555",
+  address: ['1 Infinite Loop','Cupertino','CA','95014']
+};
+
+//objects within a object
+
+
+***ACCESSING OBJECTS***
+var dog = {
+  species: "greyhound",
+  weight: 60,
+  age: 4
+};
+
+var species = dog["species"];  //NOTE that putting quotation around the property Name  (ObjectName["PropertyName"])
+
+***METHODS***
+// like function associated with an object
+bob.setAge = function (newAge){
+  bob.age = newAge;
+};
+// here we set bob's age to 40
+bob.setAge(40);
+
+/////////
+//this keyword 
+// here we define our method using "this", before we even introduce bob
+var setAge = function (newAge) {
+  this.age = newAge;
+};
+// now we make bob
+var bob = new Object();
+bob.age = 30;
+// and down here we just use the method we already made
+bob.setAge = setAge;
+  
+// change bob's age to 50 here
+bob.setAge(50)
+
+//////
+//or make it work for only one
+rectangle.setWidth = function(newWidth){
+    this.width = newWidth;
+}
+
+***CUSTOM CONSTRUCTORS***
+function Person(name,age) {
+  this.name = name;
+  this.age = age;
+}
+
+// Let's make bob and susan again, using our constructor
+var bob = new Person("Bob Smith", 30);
+
+//can also predefine things
+function Rectangle(height, width) {
+  this.height = height;
+  this.width = 2; //has to be 2
+  this.calcArea = function() {  //define its own function
+      return this.height * this.width;
+  };
+
+//Array is another object
+var family = new Array();
+family[0] = new Person("alice", 40);
+family[1] = new Person("bob", 42);
+
+***MORE ON OBJECT****
+contacts[contacts.length] = {
+    firstName: firstName,
+    lastName: lastName,
+    phoneNumber: phoneNumber,
+    email: email
+};
+//can create an object by adding it to an array,without naming it. 
+
+** typeof ***
+var anObj = { job: "I'm an object!" };
+var aNumber = 42;
+var aString = "I'm a string!";
+
+console.log(typeof anObj  ); // should print "object"
+
+***Object Baggages***
+//has own property 
+var myObj = {
+    name : "bla"
+    
+};
+
+console.log( myObj.hasOwnProperty('name') ); // should print true
+console.log( myObj.hasOwnProperty('nickname') ); // should print false
+
+
+//referring to values of the properties 
+var nyc = {
+    fullName: "New York City",
+    mayor: "Bill de Blasio",
+    population: 8000000,
+    boroughs: 5
+    traffic : function(string){
+	console.log(string)
+     }
+};
+
+// write a for-in loop to print the value of nyc's properties
+for (var k in nyc)
+    console.log(nyc[k])  //not console.log(nyc.k)
+
+
+***constructor*** 
+
+function Person (name, age){
+	this.name = name 
+	this.age = age 
+}
+var bob = new Person ("bob", 20)
+
+
+***adding property later****
+function Dog (breed) {
+  this.breed = breed;
+}
+
+// here we make buddy and teach him how to bark
+var buddy = new Dog("Golden Retriever");
+buddy.bark = function() { //a new function that Dog doesn't have
+  console.log("Woof");
+};
+buddy.bark();
+
+//Or you can add the function to ALL Dogs  (ClassName.prototype.functionName = function()
+Dog.prototype.bark = function(){
+	console.log("woof");
+}
+
+//Inheriance 
+Penguin.prototype = new Animal();
+
+//public vesus private 
+function Person(first,last,age) {
+   this.firstname = first;
+   this.lastname = last;
+   this.age = age; //this makes it public 
+   var bankBalance = 7500;  //var makes it a private variable 
+} 
+
+//accessing a private method with a public method 
+function Person(first,last,age) {
+   this.firstname = first;
+   this.lastname = last;
+   this.age = age;
+   var bankBalance = 7500;
+  
+   var returnBalance = function() {
+      return bankBalance;
+   };
+       
+
+   this.askTeller = function(){
+       return returnBalance; //no parantheses, returning the method itself
+			//but not the result of calling that method
+   }
+}
+
+//accessing prviate variables 
+function StudentReport() {
+    var grade1 = 4;
+    var grade2 = 2;
+    var grade3 = 1;
+    this.getGPA = function() {
+        return (grade1 + grade2 + grade3) / 3;  //instead of using this.grade1, etc
+    };
+}
+
+
+***Regular Expression***
+- a sequence of characters that forms a search pattern
+
+var patt = /w2school/i  //search for w2school, case sensitive 
+
+***Hoisting*** 
+using a variable before declaring it 
+
+
+***good practice*** 
+//use parameter default to avoid code breaking
+function myFunction(x, y) {
+    if (y === undefined) {
+        y = 0;
+    }
+}
+
+***Performance*** 
+- reduce activities in loops, put them outside of loops when possible
+- reduce DOM access, or access it once and use it as a local variable 
+- reduce DOM size (will help each attempt to search the DOM..like getElementsBy Id
+	- keep the number of elements in HTML DOM smal 
+- avoid unnecessary variables 
+- delay javascript loading by puttting scrips at the bottom of the page body 
+	- or use   :   window.onload = downScripts  //first line after <script> 
+	- or use defer="true" in the script tag 

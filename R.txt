@@ -1,0 +1,226 @@
+Notes on special packages 
+
+====reminder of how to plot=====
+basic graphs 
+ 
+d <- read.table('data.txt',header=T)
+plot(d$Y1~d$X,ann=FALSE,type="n",xlim=c(0.1,1),ylim=c(0,1))
+lines(d$Y1~d$X,lwd=2)
+lines(d$Y2~d$X,lwd=2,lty=2)
+title("Data",xlab="X",ylab="Y")
+
+
+========tbl_df==============8:51 PM 2014-09-27
+
+- install.packages('dplyr')  #from CRAN 
+- suppressPackageStartupMessages(library(dplyr)) to avoid chatty comments (optional)
+
+- an upgrade from data.frame, for which dplyr provides nice methods for inspection
+	- but it still works on normal data.frame 
+	- gtbl <- tbl_df(gdf)
+	- glimpse(gtbl) #kind of like str()
+	- snippet  <- subset(gdf, country=="Canada") 
+- other functions: 
+  filter(gdf, lifeExp<29)
+  filter(gdf, country %in% c("Rwanda", "Afghanistan"))
+  gdf  %>% head(3) 
+	#piping to the function on the right 
+  gtbl %>% select(year, lifeExp)  %>% head(4) 
+	#double pipe
+  select(gtbl, country, lifeExp) #show only those cols
+
+http://stat545-ubc.github.io/block010_dplyr-end-single-table.html  
+
+- mutate, adding new variables to a dataframe: 
+	#to see the percentage of gdpPercap compared against Canada 
+	just_canada <- gtbl %>% filter(country == "Canada") #subsetting 
+	gtbl <- gtbl %>% 
+  		mutate(canada = just_canada$gdpPercap[match(year, just_canada$year)],
+         	gdpPercapRel = gdpPercap / canada)
+	gtbl %>% select(country, year, gdpPercap, canada, gdpPercapRel)
+	gtbl %>% select(gdpPercapRel) %>% summary  #interesting result 
+
+- arrange() to arrange data
+	gtbl  %>% arrange(year, country)  #order data by year and then country 
+	gtbl %>% filter(year==2007) %>% arrange(desc(lifeExp))
+		#show only 2007, arranged lifeexp from high to low 
+
+- rename() to rename variable (rename_vars() for V0.2) 
+	gtbl %>% rename(life_exp = lifeExp, gdp_percap = gdpPercap,        		gdp_percap_rel = gdpPercapRel) #changing from camel case to snake case
+
+- group_by() 
+	gtbl %>% group_by(continent)  %>% summarize(n_obx=n()) 
+		#give you a data frame of number of countries in each continent
+	or simply use: 
+	gtbl %>% group_by(continent) %>% tally
+
+
+- summarize() 
+	gtbl %>% group_by(continent) %>% summarize(avg_lifeExp = mean(lifeExp))
+
+- summarize_each()   (not available for 0.2V) 
+	gtbl %>%
+ 	filter(year %in% c(1952, 2007)) %>%
+  	group_by(continent, year) %>%
+  	summarise_each(funs(mean, median), lifeExp, gdpPercap)
+
+- more complicated operations
+	asia %>% 
+	 mutate(le_rank = min_rank(lifeExp), 
+	 le_desc_rank = min_rank(desc(lifeExp)))
+	 #We added two variables, 
+	 #le_rank : 1st place being lowest lifeExp, le_desc_rank: opp 
+
+	gtbl %>%
+  	 filter(continent == "Asia") %>%
+  	 select(year, country, lifeExp) %>%
+  	 arrange(year) %>%
+  	 group_by(year) %>%
+ 	 filter(min_rank(desc(lifeExp)) < 2 | min_rank(lifeExp) < 2)
+	 	#This means select those with highest lifeExp and lowest lifeExp 
+
+	gtbl %>%
+ 	 filter(continent == "Asia") %>%
+  	 select(year, country, lifeExp) %>%
+ 	 arrange(year) %>%
+  	 group_by(year) %>%
+  	 #top_n(1)               ## gets the min
+ 	 top_n(1, desc(lifeExp)) ## gets the max
+
+reference: http://stat545-ubc.github.io/block010_dplyr-end-single-table.html
+
+
+==============ggplot2==================8:28 AM 2014-09-28
+source of tutorials: https://github.com/jennybc/ggplot2-tutorial 
+
+- plot good-looking graph
+
+1. SCATTER PLOT 
+
+> p <- ggplot(gdf, aes(x=gdpPercap, y=lifeExp)) #no plot yet
+> p + geom_point() #plot a scatter plot  same as p + layer(geom = "point") 
+
+Since it's densely packed, do log transformation 
+
+> ggplot(gdf, aes(x=log10(gdpPercap), y=lifeExp)) + geom_point() 
+	#or do p + geom_point() + scale_x_log10()
+> p <- p+ scale_x_log10() +geom_point(aes(color=continent)) #p has to go first 
+	#now you have color dots 
+> p + geom_point(alpha=(1/3), size=3) #gives transparency 
+> p + geom_point() + geom_smooth(lwd = 3, se = FALSE)
+> p + geom_point() + geom_smooth(lwd = 3, se = FALSE, method="lm") 
+	#draw a thick straight line
+> p + aes(color=continent) + geom_point() + geom_smooth(lwd = 3, method="lm") 
+	#draw color lines 
+
+#to subset, do it within ggplot 
+> ggplot(subset(gdf, country == "Zimbabwe"),
+	+ aes(x = year, y = lifeExp)) + geom_line() + geom_point() 
+	
+> jCountries <- c("Canada", "Rwanda", "Cambodia", "Mexico")
+> ggplot(subset(gDat, country %in% jCountries),
+       aes(x = year, y = lifeExp, color = country)) + geom_line() + geom_point()
+
+#change the color part to make the legend match the order of the graph
+	#color = reorder(country, -1 * lifeExp, max)
+
+> ggplot(gDat, aes(x = gdpPercap, y = lifeExp)) + scale_x_log10() + geom_bin2d()
+	#another way to deal with overplotting besides using alpha 
+
+summary :  
+	ggplot(thedatayouwanttoplot, aes())
+	aes(specify x and y, color by what category) 
+		#can be in geom_point, geom_line, ggplot, or by itself 
+	geome_point(specify alpha and size) #add points to it 
+	geome_smooth(specify the line fit)  
+	face_wrap(~category) #by which to separate into graphs 
+	geom_line() #connect the dots, might be gross 
+
+
+
+2. STRIP PLOTS	
+
+> ggplot(gdf, aes(x=continent, y=lifeExp)) + geom_point() 
+	#this one gives you a line of points for each continnet 
+> ggplot(gdf, aes(x=continent, y=lifeExp)) + geom_jitter()
+	#this one gives column of points 
+> ggplot(gdf, aes(x=continent, y=lifeExp)) + geom_jitter(position = position_jitter	(width=0.1, height=0), alpha = 1/4)
+	#inside geom_jitter you can specify alpha and width of column 
+
+> ggplot(gDat, aes(x = continent, y = lifeExp)) + geom_boxplot()
+	#box plot! 
+> ggplot(gDat, aes(x = continent, y = lifeExp)) +
+  geom_boxplot(outlier.colour = "hotpink") +
+  geom_jitter(position = position_jitter(width = 0.1, height = 0), alpha = 1/4)
+	#more arguments in geom_boxplot() and combine with geom jitter 
+
+> ggplot(gdf, aes(reorder(x=continent, lifeExp), y=lifeExp)) + 
+  geom_jitter(position=position_jitter(width=0.1), alpha=1/4) +  
+  stat_summary(fun.y=median, colour="red", geom="point", size=6)
+	#add summary to the graph 
+	#order x (continent) according to lifeExp 
+
+
+3. EXPLORING QUANTITATIVE VARIABLE 
+
+histogram (geom_histogram)
+> ggplot(gdf, aes(x=lifeExp)) + geom_histogram() #make a histogram
+> ggplot(gDat, aes(x = lifeExp, fill = continent, color = reorder(country, -1 * lifeExp, max))) + geom_histogram()
+	#Super cool! color by continent, stacking up the histograms 
+> ggplot(gdf, aes(x = lifeExp, fill = continent)) 
+	+ geom_histogram(position = "identity")
+	#perhaps a more accurate representation so continents don't obscure one another
+
+smooth graph (geom_density) 
+> ggplot(gdf, aes(x = lifeExp, color = continent, fill=continent)) + geom_density(alpha=0.2) 
+
+try facets again 
+> ggplot(gdf, aes(x=lifeExp)) + geom_density() + facet_wrap(~continent)
+> ggplot(subset(gdf, continent != "Oceania"), aes(x=lifeExp, fill = continent)) + 	geom_density() + facet_grid(continent~.)
+	# excluding Oceania and use facet_grid, including grid and make them stack  
+
+> ggplot(gDat, aes(x = year, y = lifeExp)) + geom_boxplot(aes(group = year))
+	# note you need to specify group = year in geom_boxplot 
+
+
+
+
+4. Bar Charts  geom_bar()
+
+> ggplot(gdf, aes(x=continent)) + geom_bar() 
+	#check with table(gdf$continent)
+
+> ggplot(gdf, aes(x=reorder(continent, continent, length))) + geom_bar(width=0.5) 
+	+ coord_flip()
+	#to reorder the continent 
+	#+ coord_flip() to do horizontal bars 
+	#specify the width of the bar 
+
+
+
+5. THEME CUSTOMIZATIONS  (could try ggthemes package)
+
+# start with this graph with no customization 
+> p  <-  ggplot(gdf, aes(x=gdpPercap, y=lifeExp))  
+	+ scale_x_log10() + geom_point() + geom_smooth(lwd = 3, se=FALSE) 
+	+ aes(color=continent)
+
+> p + ggtitle("a graph") + theme_bw()
+	# put a title and surpress default grey background (+theme_grey() to get back)
+
+#try ggtehemes packages   https://github.com/jrnold/ggthemes 
+> install.packages(ggthemes)
+> library(ggthemes) 
+> p + ggtitle("a graph") + theme_economist() # pretty! 
+> p + ggtitle("a graph") + theme_economist_white()
+
+#color customization : 
+https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-colors.md 
+
+
+6. BUBBLE GRAPHS 
+
+https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-shock-and-awe.md 
+
+
+

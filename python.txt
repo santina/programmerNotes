@@ -1,0 +1,10 @@
+#function 
+def functionname: 
+	#code
+
+#print statment 
+print '%s/%s/%s' % (now.year, now.month, now.day)
+
+#Date 
+from datetime import datetime 
+now = datetime.now()

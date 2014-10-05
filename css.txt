@@ -1,0 +1,59 @@
+think of things as a box 
+use "position"  to position things 
+
+//using . to target class in html
+
+.head {
+color: blue;
+font-family: 
+border: 3px solid #cc000 ;
+padding: 23px;
+} 
+
+or be more specific
+.head p {
+color:blue;
+}
+
+html: 
+<div class="header">..</div>
+
+
+//color 
+RGB: 0-255 
+Hex : 00 to ff
+//size 
+pixels, es
+
+
+//SASS 
+like CSS for Rails
+
+//Rules
+
+selector {declaration{ 
+
+h1,h2 { 
+	font-weight :   ;
+	font-family:  ; 
+}
+
+//select <div class="main">  ... in html 
+
+div.main{
+
+}
+
+class selector 
+p.main {   } 
+.main {    } 
+
+id selector 
+#chapter 1 {  } 
+
+go to w3 school to see all selectors 
+
+//Pseudo-classes 
+to selecte information outside of the document tree, like visited / unvisited links 
+a: link {color:  } /*unvisited links*/
+
