@@ -10,7 +10,7 @@ lines(d$Y2~d$X,lwd=2,lty=2)
 title("Data",xlab="X",ylab="Y")
 
 
-========tbl_df==============8:51 PM 2014-09-27
+========dplyr==============8:51 PM 2014-09-27
 
 - install.packages('dplyr')  #from CRAN 
 - suppressPackageStartupMessages(library(dplyr)) to avoid chatty comments (optional)
@@ -30,6 +30,10 @@ title("Data",xlab="X",ylab="Y")
   select(gtbl, country, lifeExp) #show only those cols
 
 http://stat545-ubc.github.io/block010_dplyr-end-single-table.html  
+
+#what I found out: 
+- subset is like actually chopping off the data from those rows (row numbers are the same)
+- filter is like picking them out and arrange them from row 1 to n 
 
 - mutate, adding new variables to a dataframe: 
 	#to see the percentage of gdpPercap compared against Canada 
@@ -57,12 +61,22 @@ http://stat545-ubc.github.io/block010_dplyr-end-single-table.html
 
 - summarize() 
 	gtbl %>% group_by(continent) %>% summarize(avg_lifeExp = mean(lifeExp))
+	basically collpase by rows 
 
 - summarize_each()   (not available for 0.2V) 
 	gtbl %>%
  	filter(year %in% c(1952, 2007)) %>%
   	group_by(continent, year) %>%
   	summarise_each(funs(mean, median), lifeExp, gdpPercap)
+- tally()
+	gtbl %>%
+  	group_by(continent) %>%
+  	tally
+	# count number of continents 
+- n_distinct() , gets number of unique countries:
+	gtbl %>%
+ 	 group_by(continent) %>%
+ 	 summarize(n_obs = n(), n_countries = n_distinct(country))
 
 - more complicated operations
 	asia %>% 
@@ -224,3 +238,58 @@ https://github.com/jennybc/ggplot2-tutorial/blob/master/gapminder-ggplot2-shock-
 
 
 
+
+==============plyr==================2:00 PM 2014-10-05
+
+Jenny: computer by groups within data.frames 
+
+#Big ideas: 
+	functions with names like XYply, where x is input, y is output. they can be: 
+	a: array , d: data frame, l : list , 
+	_ no output (valid for only y, useful if you just want side effects) 
+
+#ddply(): 
+	## gurl <- "http://tiny.cc/gapminder"
+	## data <- read.delim(gurl)
+	get data.frame in , get dataframe out 
+	(data, how to divide up the dataframe, apply this function on all those chunks)
+	
+get max life exp, divide the dataset by continent 
+> max_by_con  <- ddply(data, ~continent, summarize, max_le = max(lifeExp)) 
+
+if we add continent: 
+> max_by_con  <- ddply(data, ~continent+continent, summarize, max_le = max(lifeExp)) 
+		what does this do?? 
+
+##   continent max_le
+## 1    Africa 76.442
+## 2  Americas 80.653
+## 3      Asia 82.603
+## 4    Europe 81.757
+## 5   Oceania 81.235
+
+and all would be in the same order as the original data frame 
+
+#use summarize and ddplyr
+> ddply(data, ~continent, summarize, minGDP = min(gdpPercap), maxGDP = max(gdpPercap))
+
+gives the summary of min gdp for each continent 
+
+count unique countries: 
+> ddply(gDat, ~ continent, summarize, n_uniq_countries = length(unique(country)))
+or you can also do 
+>ddply(gDat, ~ continent, 
+      function(x) c(n_uniq_countries = length(unique(x$country))))
+write the function that returns length 1 vector inside ddply
+
+
+#Combine with a function: 
+
+le_lin_fit <- function(dat, offset = 1952) {
+  the_fit <- lm(lifeExp ~ I(year - offset), dat)
+  setNames(coef(the_fit), c("intercept", "slope"))
+}
+
+use ddply to do it to all continent : 
+j_coefs <- ddply(data, ~country, le_lin_fit) 
+head(j_coefs, 10) #check it! 

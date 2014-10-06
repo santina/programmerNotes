@@ -214,3 +214,32 @@ correlation<-cor(f[good,"nitrate"], f[good, "sulfate"])
 gdURL <- "http..." 
 gData <- read.delim(file = gdURL)
 str(gData) 
+
+
+***Linear Regression*** 2:00 PM 2014-10-05
+# load data : 
+gd_url <- "http://tiny.cc/gapminder"
+data <- read.delim(gd_url)
+library(ggplot2)
+
+# let's look at France first 
+j_data  <- subset(data, country=="France")
+
+#plot a graph 
+p <- ggplot(j_data, aes(x=year, y=lifeExp))
+p+geom_point() + geom_smooth(method="lm", se=FALSE)
+
+# get the coefficients: 
+j_fit <- lm(lifeExp ~ year, j_data)
+coef(j_fit) # or j_fit["coefficients"]
+
+#because our year starts at 1952, to get the actual coef: 
+j_fit <- lm(lifeExp ~ I(year - 1952), j_data)
+coef(j_fit)
+
+# try other things, also set names to better ones 
+lin_fit (data[data$country == "Japan", ], 1952)
+setNames(coef(fit), c("Intercept", "slope")
+
+
+
