@@ -241,5 +241,11 @@ coef(j_fit)
 lin_fit (data[data$country == "Japan", ], 1952)
 setNames(coef(fit), c("Intercept", "slope")
 
+****more on linear regression*****11:40 AM 2014-10-13
+
+fit <- lm(gdpPercap ~I(year- 1952), data_sub)
+summary(fit)$sigma
+
+fit$residuals #same as resid(fit)
 
 

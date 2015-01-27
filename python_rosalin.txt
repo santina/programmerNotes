@@ -1,0 +1,19 @@
+1. http://rosalind.info/problems/dna/
+a.count("A")
+
+2. http://rosalind.info/problems/rna/
+a.replace("h", "y")
+
+3. http://rosalind.info/problems/revc/ 
+for loop to replace letters
+b = a.reverse()
+
+3. http://rosalind.info/problems/iprb/
+simple probability , see source code 
+
+4. http://rosalind.info/problems/fib/
+dynamic programming. store values in a table 
+slight variation with the rabbit problem 
+
+5. http://rosalind.info/problems/fibd/
+extension on the previous problem. many edge cases, took me the longest

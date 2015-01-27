@@ -1,0 +1,7 @@
+===== Ruby on Rails ==== 
+Browser ----(Rail router (routes.rb) ---> Controller -----> View ---> Browser
+- request response cycle
+- browser makes a resquest to the server, whichtalks to the Rails application
+- Rails comes with scripts called generators (commands tha tcreate files which make up the appp)
+	- type in command line: rails new my-app
+	- type in browser: localhost:3000 

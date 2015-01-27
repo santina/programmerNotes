@@ -1,10 +1,317 @@
-#function 
+# Function 
 def functionname: 
 	#code
+	return whatever
 
-#print statment 
+# print statment 
 print '%s/%s/%s' % (now.year, now.month, now.day)
 
-#Date 
+# Date 
 from datetime import datetime 
 now = datetime.now()
+
+# commenting 
+- multi-line:  '''     some stuff   ''' 
+- with # 
+
+# Strings
+
+fifth_l = "hello"[4]
+len(stringName) # .lower(), .upper(), 
+pi = 3.14 
+print str(pi)  # turn non-string into strings
+
+#string concatenation 
+print "hi" + " world" 
+stringname[0] 
+stringname[1:7]
+
+#string formatting
+string_1 = "Camelot"
+string_2 = "place"
+print "Let's not go to %s. 'Tis a silly %s." % (string_1, string_2)
+
+#console input
+name = raw_input("What is your name?")
+quest = raw_input("What is your quest?")
+color = raw_input("What is your favorite color?")
+num = int(raw_input("What is your favorite color?"))
+
+
+print "Ah, so your name is %s, your quest is %s, " \
+"and your favorite color is %s." %(name, quest, color)
+
+# Time 
+from datetime import datetime
+now = datetime.now()
+print '%s/%s/%s %s:%s:%s' % (now.month, now.day, now.year, now.hour, now.minute, now.second)
+
+# logics
+
+literally "and" , "or" , and "not" instead of && and || and !
+order of evaluation: not, and, or
+elif: else if
+
+# functions 
+indentations! 
+
+def functionName(input): 
+	code 
+	'''comment in multiple lines'''
+
+import math
+print math.sqrt(25)
+
+# or do "from math import sqrt" so you don't type math.sqrt, but just sqrt
+from math import * # import everything 
+
+## to see what functions are there 
+import math            # Imports the math module
+everything = dir(math) # Sets everything to a list of things from math
+print everything       # Prints 'em all!
+
+# built in functions
+min(1,2,3)
+max(1,2,3)
+abs(-2)
+print type(2) # get the type 
+ if type(name) == int or type(name) == float: 
+# can be usd in checking types of arguments 
+len(stringName) 
+len(listName) 
+count += 1  # can't do count++
+print  # print nothing, an empty line 
+letters = ['a','b']
+print ' '.join(letters) # print : a b so you don't print with bracket
+
+range(n) # gives a list of 0 to n-1
+string.split(string2) # split string by occurrances of string2 -> array
+
+s = "string"
+s[::-1] #print "gnirts"
+
+
+# Interate two or more lists at once
+- use zip()
+- zip(list1, list2, ...)
+- for a,b in zip(list1, list2):
+- stops at the end of the shorter list
+- in this case a and b are not indices, they are elements in the lists
+
+
+# List 
+numbers = [1,2,3,4]
+numbers[1] = 3 # changes it
+numbers[0:2] # get first and second (not third) items 
+listName.index("item2")  # return 1
+listName.insert(index, item) # insert at that position and move 
+everything up
+listName.append(item) # append at the end 
+listName.sort() # sort the elements
+listname.remove("itemName)
+listName.pop(index) # delete and return it 
+del(listName[index]) # remove without returning
+listName.remove(index) # removes it if it finds it 
+range(3) # returns 0, 1, 2
+    range(stop)
+    range(start, stop)
+    range(start, stop, step)
+m = [1, 2, 3]
+n = [4, 5, 6]
+m + n # return [1,2,3,4,5,6], joining two lists together 
+
+#'you can generate a list like this: (list comprehension)
+evens_to_50 = [i for i in range(51) if i % 2 == 0]
+	note that the condition follows 'if'
+
+#' slide the list :
+list[2:9:2] #[start:end:stride] and you don't need to specify all 3 
+list[::-1] # print it backward
+print filter(lambda x: x % 3 == 0, my_list) 
+#' same thing as def function(x): return x%3 == 0
+#' another example: 
+languages = ["HTML", "JavaScript", "Python", "Ruby"]
+print filter(lambda x: x == "JavaScript", languages) 
+#' print only "JavaScript"
+
+
+
+# Bitwise Operators
+
+print 0b1,    #1
+print 0b10,   #2
+print 0b11,   #3
+print 0b100,  #4
+print 0b101,  #5
+print 0b110,  #6
+print 0b111   #7
+
+bin(2) # print number to bits 
+
+# Print out the decimal equivalent of the binary 11001001.
+print int("0b11001001", 2)
+
+shift_right >>= 2  # same as shift_right = shift_right >> 2
+shift_left <<= 2  # 0b000001 << 2 == 0b000100 (1 << 2 = 4)
+#' sliding using >> : not having to write out everything 
+print bin(0b1110 & 0b101) # & is bitwise and operator 
+#' prints 0b100, only one digit in common 
+#' so it'd only be the same of the smaller number of less 
+print bin(0b1110 | 0b101) # | the biwse or operator, 0b111
+print bin(0b1110 ^ 0b101 ) # ^ XOR bitwise operator, 0b1011
+
+print ~1 # -2 
+print ~2 # -3, they're bitwise NOt operator 
+
+## applications
+- bit mask
+def check_bit4(input):
+    mask = 0b1000
+    if mask & input == 0b1000:
+        return "on"
+    else: 
+        return "off"
+- flipping bits 
+a = 0b11101110
+mask = 0b11111111
+desired = bin(a ^ mask)
+
+- turn on certain bit
+a = 0b10111011
+mask = 0b100
+print bin(a | mask)
+
+
+
+
+print ["O"] * 5 # get ['O', 'O', 'O', 'O', 'O']
+
+5 not in range(6) # return false 
+
+# for loop 
+for number in numberlist: 
+
+example: 
+names = ["Adam","Alex","Mariah","Martine","Columbus"]
+for name in names: 
+    print name
+
+for i in range(1, len(listName))
+
+for c in "eggs": print c  # print one letter at a time 
+for c in "eggs": print c, 
+# , means next print statemtn print on the same line
+
+
+# Dictionary
+menu = {} # empty dictionary 
+menu["chicken"] = 132 # menu[new_key] = new_value 
+
+residents = {'Puffin' : 104, 'Sloth' : 105, 'Burmese Python' : 106}
+residents["Sloth"] # return 105
+del residents["Puffin"] #revmoes it 
+
+my_dict = {
+    "fish": ["c", "a", "r", "p"],
+    "cash": -4483,
+    "luck": "good"
+} # can hold different types of things too 
+
+print my_dict.items() # print out everything in the dictionary
+.keys()  # print the keys
+.values()# print the values 
+
+
+# important libraries
+
+from random import randint
+a = randint(0,10)  # inclusive 
+
+
+
+
+# while and else construction 
+- else would be executed if 
+	- while loop was never entered
+	- while loop is evaluated to false 
+- else would NOT be executed if while loop exits due to "break"
+- there's also for/else construction, and same thing
+
+# tips
+- use \ to break down a line of code into two lines 
+- use \ to escape character 
+- print statement: 
+	string1 = "number is: "
+	print string1, 2+1 # print 'number is 3'
+
+- len(listname) = 3 
+	len(listName)/2 = 1 
+	len(listName)/2.0 = 1.5
+
+
+# Class
+class Animal(object): 
+	pass #a placeholder in areas where Python expects an expression
+
+class Animal(object):
+	def __init__(self): # like "this" in java
+
+class Animal(object):
+    """Makes cute animals."""
+    is_alive = True # make them default to true 
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    def description(self):
+	print self.name 
+	print self.age 
+zebra = Animal("Jeffrey", 2)
+print zebra.name, zebra.age, zebra.is_alive
+zebra.description()
+
+## inheritance and overwriting 
+class Customer(object):
+    """Produces objects that represent customers."""
+    def __init__(self, customer_id):
+        self.customer_id = customer_id
+
+    def display_cart(self):
+        print "I'm a string that stands in for the contents of your shopping cart!"
+
+class ReturningCustomer(Customer):
+	def display_cart(self): # overwriting 
+        	print "hi!"
+	
+## supercall 
+class Derived(Base):
+   def m(self):
+       return super(Derived, self).m()
+
+
+# File I/O
+- file = open("output.txt", "r+") # read and write, "w" just write
+
+my_list = [i**2 for i in range(1,11)]
+
+for i in my_list:
+    my_file.write(str(i) + "\n")
+
+print my_file.read() # print out everything
+print my_file.readline() # print one line each time
+print my_file.readline() 
+my_file.close() # always do this so Python "flush the buffer"
+
+## built-in methods for files
+- to invoked: 
+with open("file", "mode") as variableName:
+    # Read or write to the file
+    textfile.write("Success!")
+
+
+# ==== Tricks and Tips=======
+- if you gonna use a global variable in a function, you need to declare it
+globvar = 0
+def set_globvar_to_one():
+    global globvar    # Needed to modify global copy of globvar
+    globvar = 1
+

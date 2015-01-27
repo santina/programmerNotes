@@ -1,0 +1,654 @@
+# similar to python
+- 2*2 
+- 3-1
+- use tab 
+- print "whatever"  # but this doesn't print a blank line after
+- puts "what's up" # put a blank line after 
+- a = 2 
+- except:
+	- no colon
+
+# everything is an object
+
+## strings 
+puts "hello".length
+puts "eric".reverse 
+puts "eric".upcase
+puts "Eric".downcase
+name = "Eric".downcase.reverse.upcase  # chain methods 
+name.capitalize! # capitalize the first letter, assign back to name
+
+# comment
+- # 
+- multi-line:  
+
+=begin   
+dadf a  
+=end 
+
+# get user inputs 
+
+print "What's your name?"  # no need for escape character 
+first_name = gets.chomp # chomp gets rid of blank line 
+first_name.capitalize! 
+
+# =========== Control Flow =====================
+- almost the same in python, except:
+	-  no colon 
+	- it's 'elsif' 
+	- ends with "end"
+	- use of "unless"
+example: 
+
+print "Integer please: "
+user_num = Integer(gets.chomp)
+if user_num < 0
+  puts "You picked a negative integer!"
+elsif user_num > 0
+  puts "You picked a positive integer!"
+else
+  puts "You picked zero!"
+end # must have this
+
+## unless
+
+- gets evaluated when it's false
+
+hungry = false
+unless hungry
+  puts "I'm writing Ruby programs!"
+else
+  puts "Time to eat!"
+end
+
+## other controls
+
+if string_to_check.include ? "s"
+	#' check if the string contains a letter or a string
+	 string_to_check.gsub!(/s/, "th")
+	#' replace the s's with "th"
+end 
+
+- the opposite of while loop 
+until counter > 10
+	counter += 1
+end 
+
+for num in 1...10  # to be inclusive use 1..10
+	puts num # print 1 to 9, but not 10 
+end
+
+## loop keyword
+i = 20
+loop do
+  i -= 1
+  print "#{i}"
+  break if i <= 0
+end
+- which is the same as lop{     } # {} replaces do and end
+
+i = 20
+loop do
+  i -= 1
+  next if i%2!=0  # skip this loop if this condition meets
+  print "#{i}"
+  break if i <= 0
+end
+
+## .each iterator 
+
+object.each { |item| # Do something } # {} is for 'do'
+object.each do |item| # Do something end 
+
+example: 
+array = [1,2,3,4,5]
+
+array.each do |x|
+  x += 10
+  print "#{x}"
+end
+
+## .times iterator 
+10.times{
+    print "h"
+}
+
+
+
+# ========== Hashes ===============
+- it's like dictionaries in python or javascripts objects 
+hash = {
+  key1 => value1,
+  key2 => value2,
+  key3 => value3
+}
+
+- to initialize it 
+pets = Hash.new
+pets["fish"] = "fish"
+- or make sure it has default value: 
+h = Hash.new("nothing here")
+h["cat"] # prints 'nothing here'
+
+- to iterate through it 
+secret_identities = {
+  "The Batman" => "Bruce Wayne",
+  "Superman" => "Clark Kent",
+  "Wonder Woman" => "Diana Prince",
+  "Freakazoid" => "Dexter Douglas"
+}
+  
+secret_identities.each do |hero, name|
+    puts "#{hero}: #{name}"
+end
+
+- to sort it 
+puts "types something" 
+text = gets.chomp
+words = text.split(" ")
+frequencies = Hash.new(0)
+
+words.each do |word|
+    frequencies[word] += 1 
+end
+
+frequencies = frequencies.sort_by do |word, freq|
+    freq
+end
+
+frequencies.reverse!
+
+frequencies.each do |word, freq|
+    puts word + " " + freq.to_s # to convert number to a string
+end
+
+# ====== Hashes and Symbols =========
+- symbols aren't strings ':' 
+- there can be multiple different strings with the same value, but there's only one copy of any particular symbol at a given time. 
+	puts "string".object_id
+	puts "string".object_id # different from the first one
+
+	puts :symbol.object_id
+	puts :symbol.ojecct_id # same as the first one 
+
+
+- usually used as a hash key cuz symbols are immutable and only one copy exists at a given time (save memory) -> they are faster than strings-as-keys
+- example
+symbol_hash = {
+  :one => 1,
+  :two => 2,    # Fill in these two blanks!
+  :three => 3,
+}
+
+- coverting between strings and symbols
+	:key.to_s #"key"
+	"key".to_sym # :key
+	"key".intern # :key 
+	"value".to_i # turn input (esp user input) to integer
+
+- or the new style, same as python and javascript objects
+- notice no quotation marks around the key names (but no space allowed)
+movies = {
+    good: "Tom",
+    bad: "Sad",
+}
+
+movie.each_key do |k| #to iterate over key, or .each_value for values
+    puts k 
+end
+
+movies.each do |movie, rating| # the way to access both key and value
+   puts "#{movie}: #{rating}" #remember how the string is done 
+end
+
+
+- to initialize: 
+	- my_hash = Hash.new 
+	- my_hash = { key1: value1, key2:value2,} 
+- to add something
+	- my_hash["key3".to_sym] = userinput.to_i 
+- to delete something
+	- my_hash["key2"].delete 
+
+
+# ====== functions ========
+def puts_1_to_10  # doesn't need to have an input 
+  (1..10).each { |i| puts i }
+end  
+puts_1_to_10 # calling it
+
+## splat arguments 
+- when you dont' know how many arguments are there 
+def greeting (words, *friends)
+	#code 
+end
+
+## block
+[1, 2, 3, 4, 5].each { |i| puts i }
+- like nameless method 
+
+book_1 = "A Wrinkle in Time"
+book_2 = "A Brief History of Time"
+book_1 <=> book_2 # return 1, (or 0 or -1) cuz book_1 comes after 
+
+- you can control sorting by inserting a block as an optional argument
+books = ["Charlie and the Chocolate Factory", "War and Peace", "Utopia", "A Brief History of Time", "A Wrinkle in Time"]
+
+- To sort our books in ascending order, in-place
+books.sort! { |firstBook, secondBook| firstBook <=> secondBook }
+
+- or 
+books.sort! do |firstbook, secondBook|
+	firstBook <=> secondBook
+end
+
+- Sort your books in descending order, in-place below
+books.sort! { |firstBook, secondBook| secondBook <=> firstBook }
+
+## case and when
+
+choice = gets.chomp
+case choice
+when "add"
+    puts "Added!"
+when "update"
+    puts "Updated!"
+when "display"
+    puts "Movies!"
+else 
+    puts "Error!"
+end 
+
+
+
+# ====== Array ========== 
+
+array = [] 
+array.push(item)
+
+fibs = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+doubled_fibs = fibs.collect{|n| n*2}
+
+
+# ======= the Zen of Ruby =========
+
+puts "hi" if true # alternative to if true print "hi" end
+my_array.each { |x| puts x if x%2 == 0}
+
+puts "hi" unless true #woulnd't print anything 
+
+b = true
+print b ? "hi" : "no"  # it's like in JavaScript 
+
+
+## == Conditional Assignment Operators =======
+favorite_book = nil
+puts favorite_book
+
+favorite_book ||= "Cat's Cradle"  #||= assign only if hasn't assigned 
+puts favorite_book  # "Cat's Cradle"
+
+favorite_book ||= "Why's (Poignant) Guide to Ruby"
+puts favorite_book # "Cat's Cradle"
+
+favorite_book = "Why's (Poignant) Guide to Ruby"
+puts favorite_book  # "Why's (Poignant) Guide to Ruby"
+
+## ==== implicit return ====
+- when you don't have a return statement in your function
+	- Python: return None
+	- JavaScript: return undefined
+	- Ruby: return result of the last evaluated expression (like R!)
+- example
+def add(a,b)
+  a + b
+end
+
+## ===== upto and downto====== 
+"L".upto("P") {|l| puts l} 
+95.downto(90) { |num| print num, " " }  # an alternative to use range
+
+## ==== respond to =======
+- Ruby is more concerned about what methods an object respond to, rather than its type 
+[1, 2, 3].respond_to?(:push) # return true
+[1, 2, 3].respond_to?(:to_sym) #return false
+
+## concatenation ====== 
+[1,2,3] << 4 # same as [1,2,3].push(4)
+string += 'hi' same as string << 'hi'
+
+## using time =====
+for i in (1..3)
+  puts "I'm a refactoring master!"
+end
+- turn into: 
+3.times do 
+	puts "hi" 
+end
+
+# ===== Yielding with ======
+- block is enclosed with {}
+- block is invoked from a function with the same name as the block 
+- invoke a block using the "yield" statement in the method 
+- passing multiple parameters to block: yield a,b
+
+def yield_name(name)
+  puts "In the method! Let's yield."
+  yield("Kim")
+  puts "In between the yields!"
+  yield(name)
+  puts "Block complete! Back in the method."
+end
+yield_name("Eric") { |n| puts "My name is #{n}." }
+
+## =========== Proc ============= 
+- blocks are not objects, unlike everything else
+- need Proc to avoid repetition 
+- procs are objects 
+
+methodName = Proc.new {|x| x*2} 
+[1,2,3].collect!(&methodName) # or maps!, & turns proc into a block
+
+example: 
+group_1 = [4.1, 5.5, 3.2, 3.3, 6.1, 3.9, 4.7]
+group_2 = [7.0, 3.8, 6.2, 6.1, 4.4, 4.9, 3.0]
+group_3 = [5.5, 5.1, 3.9, 4.3, 4.9, 3.2, 3.2]
+can_ride_1 = group_1.select { |height| height >= 4 } #do this for all 3
+
+instead do this : 
+over4Ft = Proc.new{|h| h>=4}
+car_ride_1 = group_1.select(&over4Ft) #for all 3
+
+- passing a proc to method (calling a proc with a method)
+def greeter
+    yield
+end
+phrase = Proc.new { 
+    puts "Hello there!" 
+}
+greeter(&phrase) # prints Hello there
+
+- or use "call" to call a proc 
+hi = Proc.new{
+    puts "Hello!"
+}
+hi.call
+
+- pass a ruby method name around with a symbol 
+numbers_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+strings_array = numbers_array.map(&:to_s) # ["1", "2", ...]
+
+- Lambda is kind of like Proc
+symbolize = lambda{|p| p.to_sym}
+symbols = strings.collect(&symbolize)
+
+- lambda vs proc
+	- proc returns immediately without going back to the method where it is called
+	- lambda goes back into the method after being called 
+	- lambda expects the right number of arguments
+
+
+- lambda example, checking if something is symbol
+my_array = ["raindrops", :kettles, "whiskers", :mittens, :packages]
+symbol_filter = lambda{|n| n.is_a? Symbol } 
+symbols = my_array.select(&symbol_filter)# get back those that are symbols
+
+odds_n_ends = [:weezard, 42, "Trady Blix", 3, true, 19, 12.345]
+ints = odds_n_ends.select{|n| n.is_a? Integer} # return those integers
+
+
+# ======= Class ===============
+class Person
+    def initialize(name)
+        @name = name
+    end
+    def toy
+	return "computer"
+    end
+end
+matz = Person.new("Yukihiro")
+## ======== inheritance ======
+class Creature
+  def initialize(name)
+    @name = name
+  end
+  
+  def fight
+    return "Punch to the chops!"
+  end
+end
+
+
+class Dragon < Creature
+    def fight # can overwrite by writing your own code
+        puts "Instead of breathing fire..." 
+        return super # or call super (with optional args)
+    end
+end
+
+- to create a instance 
+mycreature = Creature.new("Bob")
+
+- Another example, you can pass "super" as a single line of code
+class Message 
+    @@messages_sent = 0
+    def initialize(from, to)
+        @from  = from
+        @to = to
+        @@messages_sent +=1
+end
+end
+
+my_message = Message.new("Montreal", "Vancouver")
+
+class Email < Message 
+    def initialize(from, to)
+        super
+end
+end
+
+
+
+## variables
+$, @, or @@ This helps mark them as global, instance, and class variables (respectively). $ if you want to make the variable global from inside the method
+- Note: when you're calling them you need those symbols too
+
+## methods
+
+def initialize(parameter1, parameter2)
+
+def className.method() # this is how you make a class method 
+	return @@classVariable
+end
+
+- to make an instance 
+
+my_instance = ClassName.new(parameter)
+
+- to make public and private methods in a class 
+
+class Person
+  def initialize(name, age)
+    @name = name
+    @age = age
+  end
+  
+  public    # This method can be called from outside the class.
+  def about_me
+    puts "I'm #{@name} and I'm #{@age} years old!"
+  end
+  
+  private   # This method can't!
+  def bank_account_number
+    @account_number = 12345
+    puts "My bank account number is #{@account_number}."
+  end
+end
+
+## attr_reader and attr_writer 
+doing this : 
+class Person
+  attr_reader :name  # allow you to change the 
+  attr_writer :name
+  def initialize(name)
+    @name = name
+  end
+end
+
+same as :(Ruby does it for you) 
+def name
+  @name
+end
+
+def name=(value)
+  @name = value
+end
+
+allowing you to return it and set it 
+
+or to do both (like in this case), just do
+attr_accessor :name 
+
+
+
+# ====== Modules ====== 
+
+- a toolbox with a set of methods and constants 
+- the format is kind of like a class
+- module name are CapitalizedCamelCase, just like class names
+
+module Circle
+  PI = 3.141592653589793 
+	#this is a constant, if you try changing it Ruby will warn you
+  
+  def Circle.area(radius)
+    PI * radius**2
+  end
+  
+  def Circle.circumference(radius)
+    2 * PI * radius
+  end
+end
+
+
+- "namespacing": modules can be used to separate methods and constants into named spaces 
+- scope resolution: Math::PI vs Circle::PI (inside math vs inside circle modules
+
+- "require": to introduce modules that are not present in the 
+interpreter: 
+ex: 
+require 'date' 
+puts Date.today
+
+- "include": to introduce a module inside a class:
+
+class Angle
+  include Math
+  attr_accessor :radians
+  
+  def initialize(radians)
+    @radians = radians 
+  end
+  
+  def cosine
+    cos(@radians) # from Math
+  end
+end 
+
+- "mixin" : a module that is used to mix additional behavior and information into a class
+
+module Action
+  def jump
+    @distance = rand(4) + 2
+    puts "I jumped forward #{@distance} feet!"
+  end
+end
+
+class Rabbit
+  include Action # thereby giving any Rabbit instance the 'jump' method
+  attr_reader :name
+  def initialize(name)
+    @name = name
+  end
+end
+
+- "extend" : allow the class itself, not the instances, the method
+
+module ThePresent
+  def now
+    puts "It's #{Time.new.hour > 12 ? Time.new.hour - 12 : Time.new.hour}:#{Time.new.min} #{Time.new.hour > 12 ? 'PM' : 'AM'} (GMT)."
+  end
+end
+
+class TheHereAnd
+  extend ThePresent
+end
+
+TheHereAnd.now
+
+# ====== tips =========
+
+- always remember your "end" 
+
+words.each do |l|
+    if l == redact
+        print "REDACTED"
+    else
+        print l + " "
+    end
+end
+- or you can do this to end it on the same line
+class Dragon < Creature; end  
+
+- make sure you end the if/else statement too 
+- array.sort! # assign back to itself
+- array.reverse! # is the same, assign back to itself
+def alphabetize(arr, rev = false)
+    arr.sort!
+    if rev == true
+        return arr.reverse!
+    else
+        return arr
+   
+    end 
+end
+
+
+- compare the speed of accessing hash when using symbols vs using strings
+require 'benchmark'
+
+string_AZ = Hash[("a".."z").to_a.zip((1..26).to_a)]
+symbol_AZ = Hash[(:a..:z).to_a.zip((1..26).to_a)]
+
+string_time = Benchmark.realtime do
+  100_000.times { string_AZ["r"] }
+end
+
+symbol_time = Benchmark.realtime do
+  100_000.times { symbol_AZ[:r] }
+end
+
+puts "String time: #{string_time} seconds."
+puts "Symbol time: #{symbol_time} seconds."
+
+- nil # null in Ruby
+
+- using attr_reader on multipel varaibles 
+- setting default value in inputs 
+class Account
+    attr_reader :name, :balance
+    def initialize(name, balance=100)
+        @name = name
+        @balance = balance
+end
+end
+
+- list functions 
+colors = ["b", "r", "g", "y"]
+puts colors.first
+
+- Hashes functions: .compare, .flatten
+
+- number
+  num = 2
+  num.even?  (return True or False)

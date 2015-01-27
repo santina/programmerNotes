@@ -1,0 +1,28 @@
+
+===========Data Structures===========
+Array
+
+Stack / Queue
+
+Hashset / Hashmap / Hashtable / Dictionary
+
+Tree / binary tree
+    
+Heap
+    
+Graph
+
+
+==========Algorithms===================
+
+Sorting (plus searching / binary search)
+
+Divide-and-conquer
+    
+Dynamic programming / memoization
+    
+Greediness
+    
+Recursion
+    
+Algorithms associated with a specific data structure (which brings us to our fourth suggestion...)

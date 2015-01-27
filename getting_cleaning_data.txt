@@ -1,0 +1,62 @@
+Notes from Corusera: Getting and cleaning data
+
+Week1 : 
+
+checking for creating directories: 
+	if (!file.exist("data")){
+		dir.create("data")
+	}
+get data from the internet: 
+	download.file()
+	url, destfile, method 
+	
+use Open Baltimore 
+	#curl because assuming url is https, on mac
+	download.file(fileurl, destfile= "./adata/cameras.csv", method="curl")
+	dateDownloaded <- date() 
+
+
+read local file 	
+	read.table(), read.csv()
+	file, header, sep, row, etc
+	na.strings = "999999" for example  
+	QUOTE = ""  no quoted value 
+
+read xml file in R 
+	library(XML)
+	fileURL <- "bahbalhab" 
+	doc <- xmlTreeParse(fileURL, useInternal = TRUE)
+	rootNode <- xmlRoot(doc) #everything 
+	xmlName(rootNode)
+
+XPath 
+	xpathSApply(rootNode, "//name", xmlValue) 
+	xpathSApply(rootNode, "//price", xmlValue)
+	learn xpath when you ave time 
+
+Extract xml content 
+	fileURL <- "blahbl" 
+	doc <- htmlTreeParse(fileURL, useInternal=TRUE)
+	scores <- xpathSApply(doc, "//li[@class='score']", xmlValue)
+	teams <- xpathSApply(doc, "//li[@class='team-name']", xmlValue)
+	scores #view all the scores 
+
+Read JASON	
+	libary(jsonlite)
+	jsonData <- fromJSON("some url") 
+	names(jsonData)
+	names(jsonData$owner) #access one owner 
+	jsonData$owner$login 
+	# look at this item, class = 'score' 
+
+Turn things to JASON
+	myjason <- toJSON(ris, pretty=TRUE) # pretty so make it indented 
+	cat(myjson)
+	
+	iris2 <- fromJSON(myjson)  # turn it back to dataframe 
+
+data.table package
+	inhereits from data.frame
+	many new syntax 
+
+
