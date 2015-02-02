@@ -5,3 +5,11 @@ Browser ----(Rail router (routes.rb) ---> Controller -----> View ---> Browser
 - Rails comes with scripts called generators (commands tha tcreate files which make up the appp)
 	- type in command line: rails new my-app
 	- type in browser: localhost:3000 
+
+- ERB: embedded Ruby , a way to inser Ruby code in an HTML page 
+	- two types:those appear in our code, and those that appera live in the app. 
+		- <% "goodbye world" %>
+		- <%= "hello world" %>    appear live in the app
+
+
+- pages_controller 
